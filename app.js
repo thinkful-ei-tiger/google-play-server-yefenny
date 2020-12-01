@@ -12,7 +12,7 @@ app.get('/apps', (req, res) => {
   let results = [...apps];
 
   if (sort && !['rating', 'app'].includes(sort.toLowerCase())) {
-    return res.send(`Sort should be 'rating' or 'app'`);
+    return res.status(400).send("Sort should be 'rating' or 'app'");
   }
 
   if (sort) {
@@ -35,9 +35,11 @@ app.get('/apps', (req, res) => {
         genres.toLowerCase()
       )
     )
-      return res.send(
-        'You should choose one of these genres: Action, Puzzle, Strategy, Casual, Arcade or Card'
-      );
+      return res
+        .status(400)
+        .send(
+          'You should choose one of these genres: Action, Puzzle, Strategy, Casual, Arcade or Card'
+        );
 
     genres = genres.toLowerCase();
     genres = genres[0].toUpperCase() + genres.slice(1, genres.length);
@@ -46,7 +48,4 @@ app.get('/apps', (req, res) => {
   res.json(results);
 });
 
-const PORT = 8000;
-app.listen(PORT, () => {
-  console.log(`App is running in port:${PORT}`);
-});
+module.exports = app;
